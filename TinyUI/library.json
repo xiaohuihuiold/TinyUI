@@ -1,0 +1,21 @@
+{
+  "name": "TinyUI",
+  "version": "0.0.1",
+  "description": "tiny ui",
+  "keywords": "planet, happiness, people",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xiaohuihuiold/TinyUI"
+  },
+  "authors": [
+    {
+      "name": "xiaohuihuiold",
+      "email": "xiaohuihuiold@gmail.com"
+    }
+  ],
+  "license": "MIT",
+  "build": {
+    "includeDir": "./include/",
+    "srcDir": "./src/"
+  }
+}
