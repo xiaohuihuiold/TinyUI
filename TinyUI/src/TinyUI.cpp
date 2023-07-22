@@ -1,4 +1,4 @@
-#include "../include/TinyUI.h"
+#include "TinyUI.h"
 
 namespace tiny {
 

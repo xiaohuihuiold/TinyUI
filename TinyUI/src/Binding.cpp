@@ -1,4 +1,4 @@
-#include "../include/Binding.h"
+#include "Binding.h"
 
 namespace tiny::binding {
     Binding::Binding(TimerBinding *timer) : mTimer(timer) {

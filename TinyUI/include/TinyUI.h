@@ -17,8 +17,10 @@ namespace tiny {
     public:
         static TinyUI *begin(binding::TimerBinding *timerBinding);
 
+        [[nodiscard]]
         static TinyUI *get();
 
+        [[nodiscard]]
         std::shared_ptr<binding::Binding> binding();
     };
 
