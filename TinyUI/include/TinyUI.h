@@ -9,7 +9,9 @@ namespace tiny {
     class TinyUI {
     private:
         static TinyUI *instance;
-        std::shared_ptr<binding::Binding> mBinding;
+
+    public:
+        const std::shared_ptr<binding::Binding> binding;
 
     private:
         explicit TinyUI(binding::Binding *binding);
@@ -19,9 +21,6 @@ namespace tiny {
 
         [[nodiscard]]
         static TinyUI *get();
-
-        [[nodiscard]]
-        std::shared_ptr<binding::Binding> binding();
     };
 
 } // tiny

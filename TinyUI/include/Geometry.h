@@ -6,58 +6,34 @@
 namespace tiny::geometry {
 
     class Offset {
-    private:
-        int16_t mDx;
-        int16_t mDy;
+    public:
+        const int dx;
+        const int dy;
 
     public:
-        Offset(int16_t dx, int16_t dy);
+        Offset(int dx, int dy);
 
-        [[nodiscard]]
-        int16_t dx() const;
-
-        [[nodiscard]]
-        int16_t dy() const;
-
+        Offset operator-() const;
     };
 
     class Rect {
-    private:
-        int16_t mLeft;
-        int16_t mTop;
-        int16_t mRight;
-        int16_t mBottom;
+    public:
+        const int left;
+        const int top;
+        const int right;
+        const int bottom;
 
     public:
-        Rect(int16_t left, int16_t top, int16_t right, int16_t bottom);
-
-        [[nodiscard]]
-        int16_t left() const;
-
-        [[nodiscard]]
-        int16_t top() const;
-
-        [[nodiscard]]
-        int16_t right() const;
-
-        [[nodiscard]]
-        int16_t bottom() const;
-
+        Rect(int left, int top, int right, int bottom);
     };
 
     class RRect {
-    private:
-        const Rect *mRect;
-        int16_t mRadius;
+    public:
+        const Rect rect;
+        const float radius;
 
     public:
-        RRect(const Rect *rect, int16_t radius);
-
-        [[nodiscard]]
-        const Rect *rect() const;
-
-        [[nodiscard]]
-        int16_t radius() const;
+        RRect(Rect rect, float radius);
     };
 } // geometry
 

@@ -13,7 +13,7 @@ namespace tiny::painting {
 
     struct Paint {
         Colors color = Colors::white;
-        int16_t strokeWidth = 1;
+        int strokeWidth = 1;
     };
 
 } // painting

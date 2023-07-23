@@ -5,7 +5,7 @@ namespace tiny {
     TinyUI *TinyUI::instance = nullptr;
 
     TinyUI::TinyUI(binding::Binding *binding) :
-            mBinding(binding) {
+            binding(binding) {
 
     }
 
@@ -18,10 +18,6 @@ namespace tiny {
 
     TinyUI *TinyUI::get() {
         return instance;
-    }
-
-    std::shared_ptr<binding::Binding> TinyUI::binding() {
-        return mBinding;
     }
 
 } // tiny
