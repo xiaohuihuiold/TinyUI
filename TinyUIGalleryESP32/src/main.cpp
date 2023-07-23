@@ -1,5 +1,6 @@
 #include <Arduino.h>
 #include <TinyUI.h>
+#include <lvgl.h>
 
 #include "ESP32RenderBinding.h"
 #include "ESP32TimerBinding.h"
@@ -15,7 +16,9 @@ void setup() {
 
 void loop() {
   TinyUI::get()->beginFrame();
+
   auto canvas = TinyUI::get()->beginCanvas();
   canvas->drawLine({0, 0}, {128, 64}, {});
+  
   TinyUI::get()->endFrame();
 }

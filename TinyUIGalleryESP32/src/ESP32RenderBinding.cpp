@@ -1,6 +1,29 @@
 #include "ESP32RenderBinding.h"
+#include <lvgl.h>
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+
+void disp_flush(lv_disp_drv_t* disp,
+                const lv_area_t* area,
+                lv_color_t* color_p) {
+  uint32_t w = (area->x2 - area->x1 + 1);
+  uint32_t h = (area->y2 - area->y1 + 1);
+
+  display.clearDisplay();
+  for (uint16_t y = area->y1; y <= area->y2; y++) {
+    for (uint16_t x = area->x1; x <= area->x2; x++) {
+      if (color_p->full != 0) {
+        display.drawPixel(x, y, WHITE);
+      } else {
+        display.drawPixel(x, y, BLACK);
+      }
+      color_p++;
+    }
+  }
+  display.display();
+
+  lv_disp_flush_ready(disp);
+}
 
 void ESP32RenderBinding::init() {
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
@@ -8,25 +31,40 @@ void ESP32RenderBinding::init() {
     for (;;)
       ;
   }
-}
-void ESP32RenderBinding::beginFrame() {
-  display.clearDisplay();
+
+  static lv_disp_draw_buf_t drawBuffer;
+  static lv_color_t colorBuffer[128 * 64];
+
+  lv_init();
+  lv_disp_draw_buf_init(&drawBuffer, colorBuffer, nullptr, 128 * 64);
+
+  static lv_disp_drv_t dispDry;
+  lv_disp_drv_init(&dispDry);
+  dispDry.hor_res = 128;
+  dispDry.ver_res = 64;
+  dispDry.flush_cb = disp_flush;
+  dispDry.draw_buf = &drawBuffer;
+  lv_disp_drv_register(&dispDry);
 }
 
-void ESP32RenderBinding::endFrame() {
-  display.display();
+void ESP32RenderBinding::beginFrame() {
+  lv_timer_handler();
 }
+
+void ESP32RenderBinding::endFrame() {}
 
 void ESP32RenderBinding::drawPoint(const tiny::geometry::Offset& offset,
-                                   const tiny::painting::Paint& paint) {
-  display.drawPixel(offset.dx, offset.dy, static_cast<uint16_t>(paint.color));
-}
+                                   const tiny::painting::Paint& paint) {}
 
 void ESP32RenderBinding::drawLine(const tiny::geometry::Offset& begin,
                                   const tiny::geometry::Offset& end,
                                   const tiny::painting::Paint& paint) {
-  display.drawLine(begin.dx, begin.dy, end.dx, end.dy,
-                   static_cast<uint16_t>(paint.color));
+  auto canvas = lv_canvas_create(lv_scr_act());
+  lv_point_t ps[] = {{begin.dx, begin.dy}, {end.dx, end.dy}};
+  lv_draw_line_dsc_t lineDsc;
+  lv_draw_line_dsc_init(&lineDsc);
+  lv_canvas_draw_line(canvas, ps, 2, &lineDsc);
+  lv_mem_free(canvas);
 }
 
 void ESP32RenderBinding::drawRect(const tiny::geometry::Rect& rect,
