@@ -1,10 +1,13 @@
 #include "Binding.h"
 
+#include <utility>
+
 namespace tiny::binding {
 
     // Binding
-    Binding::Binding(TimerBinding *timer) : timer(timer) {
-
+    Binding::Binding(std::shared_ptr<TimerBinding> timer, std::shared_ptr<RenderBinding> render) : timer(
+            std::move(timer)), render(std::move(render)) {
+        this->render->init();
     }
 
     // RenderBinding

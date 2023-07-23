@@ -1,34 +1,21 @@
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 #include <Arduino.h>
 #include <TinyUI.h>
-#include <Wire.h>
 
+#include "ESP32RenderBinding.h"
 #include "ESP32TimerBinding.h"
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET -1
-#define SCREEN_ADDRESS 0x3C
-
 using namespace tiny;
-
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setup() {
   Serial.begin(115200);
 
-  if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-    Serial.println(F("SSD1306 allocation failed"));
-    for (;;)
-      ;
-  }
-
-  TinyUI::begin(new ESP32TimerBinding());
+  TinyUI::begin(std::make_shared<ESP32TimerBinding>(),
+                std::make_shared<ESP32RenderBinding>());
 }
 
 void loop() {
-  display.clearDisplay();
-  display.drawPixel(10, 10, SSD1306_WHITE);
-  display.display();
+  TinyUI::get()->beginFrame();
+  auto canvas = TinyUI::get()->beginCanvas();
+  canvas->drawLine({0, 0}, {128, 64}, {});
+  TinyUI::get()->endFrame();
 }

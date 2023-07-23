@@ -5,6 +5,7 @@
 #include <memory>
 #include "Geometry.h"
 #include "Painting.h"
+#include "Path.h"
 
 namespace tiny::binding {
 
@@ -18,6 +19,10 @@ namespace tiny::binding {
     class RenderBinding {
     public:
         virtual void init() = 0;
+
+        virtual void beginFrame() = 0;
+
+        virtual void endFrame() = 0;
 
         virtual void drawPoint(const geometry::Offset &offset, const painting::Paint &paint) = 0;
 
@@ -35,9 +40,21 @@ namespace tiny::binding {
         virtual void
         drawArc(const geometry::Rect &rect, float beginAngle, float endAngle, const painting::Paint &paint) = 0;
 
+        virtual void drawPath(const path::Path &path, const painting::Paint &paint) = 0;
+
         virtual void save() = 0;
 
         virtual void restore() = 0;
+
+        virtual void clipRect(const geometry::Rect &rect, painting::ClipOp clipOp) = 0;
+
+        virtual void clipRRect(const geometry::RRect &rRect, painting::ClipOp clipOp) = 0;
+
+        virtual void clipCircle(const geometry::Offset &offset, float radius, painting::ClipOp clipOp) = 0;
+
+        virtual void clipOval(const geometry::Rect &rect, painting::ClipOp clipOp) = 0;
+
+        virtual void clipPath(const path::Path &path) = 0;
 
         virtual void translate(const geometry::Offset &offset) = 0;
 
@@ -53,9 +70,10 @@ namespace tiny::binding {
     class Binding {
     public:
         const std::shared_ptr<TimerBinding> timer;
+        const std::shared_ptr<RenderBinding> render;
 
     public:
-        explicit Binding(TimerBinding *timer);
+        explicit Binding(std::shared_ptr<TimerBinding> timer, std::shared_ptr<RenderBinding> render);
     };
 
 } // binding

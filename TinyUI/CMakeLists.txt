@@ -12,4 +12,4 @@ add_library(
         src/Binding.cpp
         src/Painting.cpp
         src/Geometry.cpp
-)
+        src/Path.cpp include/Path.h)

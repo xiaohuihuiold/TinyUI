@@ -6,7 +6,7 @@
 
 class ESP32TimerBinding : public tiny::binding::TimerBinding {
  public:
-  int64_t getTime();
+  int64_t getTime() override;
 };
 
 #endif
