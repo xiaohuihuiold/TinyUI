@@ -2,76 +2,84 @@
 #define TINYUI_PAINTING_H
 
 #include <cstdint>
-#include "TinyUI.h"
 
-namespace tiny::painting {
+namespace tiny {
 
-    enum class ClipOp {
-        difference = 0,
-        intersect = 1,
-    };
+    class TinyUI;
 
-    enum class Colors {
-        black = 0,
-        white = 1,
-        inverse = 2,
-    };
+    namespace path {
+        class Path;
+    }
 
-    struct Paint {
-        Colors color = Colors::white;
-        int strokeWidth = 1;
-    };
+    namespace painting {
 
-    class Canvas {
-    private:
-        TinyUI *tiny = nullptr;
+        enum class ClipOp {
+            difference = 0,
+            intersect = 1,
+        };
 
-    public:
-        explicit Canvas(TinyUI *tiny);
+        enum class Colors {
+            black = 0,
+            white = 1,
+            inverse = 2,
+        };
 
-        void drawPoint(const geometry::Offset &offset, const painting::Paint &paint);
+        struct Paint {
+            Colors color = Colors::white;
+            int strokeWidth = 1;
+        };
 
-        void
-        drawLine(const geometry::Offset &begin, const geometry::Offset &end, const painting::Paint &paint);
+        class Canvas {
+        private:
+            TinyUI *tinyUI = nullptr;
 
-        void drawRect(const geometry::Rect &rect, const painting::Paint &paint);
+        public:
+            explicit Canvas(TinyUI *tiny);
 
-        void drawRRect(const geometry::RRect &rRect, const painting::Paint &paint);
+            void drawPoint(const geometry::Offset &offset, const Paint &paint);
 
-        void drawCircle(const geometry::Offset &offset, float radius, const painting::Paint &paint);
+            void
+            drawLine(const geometry::Offset &begin, const geometry::Offset &end, const Paint &paint);
 
-        void drawOval(const geometry::Rect &rect, const painting::Paint &paint);
+            void drawRect(const geometry::Rect &rect, const Paint &paint);
 
-        void
-        drawArc(const geometry::Rect &rect, float beginAngle, float endAngle, const painting::Paint &paint);
+            void drawRRect(const geometry::RRect &rRect, const Paint &paint);
 
-        void drawPath(const path::Path &path, const painting::Paint &paint);
+            void drawCircle(const geometry::Offset &offset, float radius, const Paint &paint);
 
-        void save();
+            void drawOval(const geometry::Rect &rect, const Paint &paint);
 
-        void restore();
+            void
+            drawArc(const geometry::Rect &rect, float beginAngle, float endAngle, const Paint &paint);
 
-        void clipRect(const geometry::Rect &rect, painting::ClipOp clipOp);
+            void drawPath(const path::Path &path, const Paint &paint);
 
-        void clipRRect(const geometry::RRect &rRect, painting::ClipOp clipOp);
+            void save();
 
-        void clipCircle(const geometry::Offset &offset, float radius, painting::ClipOp clipOp);
+            void restore();
 
-        void clipOval(const geometry::Rect &rect, painting::ClipOp clipOp);
+            void clipRect(const geometry::Rect &rect, ClipOp clipOp);
 
-        void clipPath(const path::Path &path);
+            void clipRRect(const geometry::RRect &rRect, ClipOp clipOp);
 
-        void translate(const geometry::Offset &offset);
+            void clipCircle(const geometry::Offset &offset, float radius, ClipOp clipOp);
 
-        void rotate(float angle);
+            void clipOval(const geometry::Rect &rect, ClipOp clipOp);
 
-        void rotate(float angle, const geometry::Offset &anchor);
+            void clipPath(const path::Path &path);
 
-        void scale(float scaleX, float scaleY);
+            void translate(const geometry::Offset &offset);
 
-        void scale(float scaleX, float scaleY, const geometry::Offset &anchor);
-    };
+            void rotate(float angle);
 
-} // painting
+            void rotate(float angle, const geometry::Offset &anchor);
+
+            void scale(float scaleX, float scaleY);
+
+            void scale(float scaleX, float scaleY, const geometry::Offset &anchor);
+        };
+
+    } // painting
+} // tiny
 
 #endif //TINYUI_PAINTING_H

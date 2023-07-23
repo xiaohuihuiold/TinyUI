@@ -1,4 +1,3 @@
-
 #ifndef TINYUI_PATH_H
 #define TINYUI_PATH_H
 
