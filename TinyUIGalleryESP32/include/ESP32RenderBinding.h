@@ -1,16 +1,7 @@
 #ifndef GALLERY_ESP32RENDERBINDING_H
 #define GALLERY_ESP32RENDERBINDING_H
 
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-#include <Arduino.h>
 #include <TinyUI.h>
-#include <Wire.h>
-
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET -1
-#define SCREEN_ADDRESS 0x3C
 
 class ESP32RenderBinding : public tiny::binding::RenderBinding {
  public:
